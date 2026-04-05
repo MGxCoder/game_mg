@@ -14,7 +14,8 @@ const MainMenu = ({
   onOpenShop, 
   onOpenAchievements,
   onOpenLeaderboard,
-  onOpenSettings 
+  onOpenSettings,
+  onOpenAds 
 }) => {
   const [animateTitle, setAnimateTitle] = useState(false);
   const [showSuggestionBox, setShowSuggestionBox] = useState(false);
@@ -26,20 +27,14 @@ const MainMenu = ({
     // Title animation on mount
     setTimeout(() => setAnimateTitle(true), 100);
     
-    // Show suggestion notification after a short delay
+    // Show suggestion notification every time menu loads
     const notificationTimer = setTimeout(() => {
-      // Check if user has dismissed this notification recently
-      const lastDismissed = localStorage.getItem('suggestion_notification_dismissed');
-      const oneDay = 24 * 60 * 60 * 1000; // 24 hours
+      setShowSuggestionNotification(true);
       
-      if (!lastDismissed || Date.now() - parseInt(lastDismissed) > oneDay) {
-        setShowSuggestionNotification(true);
-        
-        // Auto-hide after 8 seconds
-        setTimeout(() => {
-          setShowSuggestionNotification(false);
-        }, 8000);
-      }
+      // Auto-hide after 8 seconds
+      setTimeout(() => {
+        setShowSuggestionNotification(false);
+      }, 8000);
     }, 2000);
     
     return () => clearTimeout(notificationTimer);
@@ -47,7 +42,6 @@ const MainMenu = ({
 
   const dismissNotification = () => {
     setShowSuggestionNotification(false);
-    localStorage.setItem('suggestion_notification_dismissed', Date.now().toString());
   };
 
   const handleOpenSuggestionBox = () => {
@@ -152,10 +146,12 @@ const MainMenu = ({
 
       {/* Menu buttons */}
       <div className="menu-buttons">
+        {/* Shop hidden for now
         <button className="menu-btn" onClick={onOpenShop}>
           <span className="btn-icon">🛒</span>
           <span className="btn-label">Shop</span>
         </button>
+        */}
         
         <button className="menu-btn" onClick={onOpenAchievements}>
           <span className="btn-icon">🏆</span>
@@ -170,6 +166,11 @@ const MainMenu = ({
         <button className="menu-btn" onClick={onOpenSettings}>
           <span className="btn-icon">⚙️</span>
           <span className="btn-label">Settings</span>
+        </button>
+
+        <button className="menu-btn" onClick={onOpenAds}>
+          <span className="btn-icon">🎁</span>
+          <span className="btn-label">Free Coins</span>
         </button>
       </div>
 

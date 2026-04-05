@@ -138,19 +138,19 @@ const Settings = ({
             <div className="setting-info">
               <span className="setting-icon">🔗</span>
               <span className="setting-name">
-                {user?.isAnonymous ? 'Link Account' : 'Linked Account'}
+                {user && !user.isAnonymous ? 'Linked Account' : 'Connect Account'}
               </span>
             </div>
-            {user?.isAnonymous ? (
+            {user && !user.isAnonymous ? (
+              <span className="linked-status">✓ {user.email || 'Google'}</span>
+            ) : (
               <button 
                 className="link-btn"
                 onClick={handleLinkGoogle}
                 disabled={isLinking}
               >
-                {isLinking ? '...' : '🔐 Google'}
+                {isLinking ? '...' : '🔗 Google'}
               </button>
-            ) : (
-              <span className="linked-status">✓ {user?.email || 'Google'}</span>
             )}
           </div>
 

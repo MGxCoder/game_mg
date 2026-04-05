@@ -22,6 +22,7 @@ import Achievements from './components/Achievements';
 import Leaderboard from './components/Leaderboard';
 import Settings from './components/Settings';
 import LoadingScreen from './components/LoadingScreen';
+import AdsPage from './components/AdsPage';
 import { useGameState } from './hooks/useGameState';
 import { useAudio } from './hooks/useAudio';
 import { checkDailyReward } from './utils/dailyRewards';
@@ -133,6 +134,7 @@ function App() {
             onOpenAchievements={() => { playSound('tap'); setCurrentScreen('achievements'); }}
             onOpenLeaderboard={() => { playSound('tap'); setCurrentScreen('leaderboard'); }}
             onOpenSettings={() => { playSound('tap'); setCurrentScreen('settings'); }}
+            onOpenAds={() => { playSound('tap'); setCurrentScreen('ads'); }}
           />
         );
       
@@ -194,6 +196,13 @@ function App() {
             user={user}
             isSyncing={isSyncing}
             forceCloudSync={forceCloudSync}
+          />
+        );
+      
+      case 'ads':
+        return (
+          <AdsPage
+            onBack={() => { playSound('tap'); setCurrentScreen('menu'); }}
           />
         );
       
