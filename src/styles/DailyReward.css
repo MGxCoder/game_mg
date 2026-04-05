@@ -1,0 +1,206 @@
+/**
+ * DAILY REWARD STYLES
+ */
+
+.daily-reward-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+.daily-reward-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-xl);
+  background: var(--bg-secondary);
+  border: 2px solid var(--accent-gold);
+  border-radius: var(--radius-lg);
+  max-width: 340px;
+  margin: var(--spacing-md);
+  opacity: 0;
+  transform: scale(0.9);
+  transition: all 0.3s ease;
+}
+
+.daily-reward-modal.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.dr-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--accent-gold);
+  text-shadow: var(--glow-gold);
+  margin-bottom: var(--spacing-md);
+}
+
+.streak-display {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(255, 100, 0, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.streak-icon {
+  font-size: 24px;
+}
+
+.streak-count {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--accent-gold);
+}
+
+/* Calendar */
+.reward-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--spacing-xs);
+  width: 100%;
+  margin-bottom: var(--spacing-lg);
+}
+
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-sm);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  position: relative;
+  opacity: 0.5;
+}
+
+.calendar-day.collected {
+  background: rgba(0, 200, 0, 0.1);
+  border-color: var(--accent-success);
+  opacity: 1;
+}
+
+.calendar-day.current {
+  background: rgba(255, 215, 0, 0.2);
+  border-color: var(--accent-gold);
+  opacity: 1;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.calendar-day.locked {
+  opacity: 0.3;
+}
+
+.day-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.day-reward {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.day-reward .coin-icon {
+  font-size: 12px;
+}
+
+.day-reward .coin-amount {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.special-icon {
+  font-size: 16px;
+}
+
+.check-mark {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  font-size: 12px;
+  color: var(--accent-success);
+}
+
+/* Today's reward */
+.todays-reward {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-lg);
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 150, 0, 0.2));
+  border: 2px solid var(--accent-gold);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-lg);
+  width: 100%;
+}
+
+.todays-reward.collecting {
+  animation: pop 0.5s ease;
+}
+
+.reward-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  margin-bottom: var(--spacing-sm);
+}
+
+.reward-amount {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.reward-amount .coin-icon {
+  font-size: 36px;
+}
+
+.reward-amount .amount {
+  font-size: 40px;
+  font-weight: bold;
+  color: var(--accent-gold);
+  text-shadow: var(--glow-gold);
+}
+
+.bonus-text {
+  margin-top: var(--spacing-sm);
+  color: var(--accent-tertiary);
+  font-weight: bold;
+}
+
+/* Collect button */
+.collect-btn {
+  width: 100%;
+  padding: var(--spacing-md);
+  background: linear-gradient(135deg, var(--accent-gold), #ff8800);
+  border-radius: var(--radius-md);
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #000;
+  margin-bottom: var(--spacing-md);
+}
+
+.collect-btn.collecting {
+  opacity: 0.7;
+}
+
+.dr-motivation {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
