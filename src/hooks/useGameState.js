@@ -130,6 +130,7 @@ export function useGameState() {
     }, CLOUD_SYNC_INTERVAL);
 
     return () => clearInterval(syncInterval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isLoaded, gameState]);
 
   // Load from localStorage

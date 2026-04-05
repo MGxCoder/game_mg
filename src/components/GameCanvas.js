@@ -19,6 +19,8 @@ const GameCanvas = ({ gameState, onGameOver, playSound }) => {
   const canvasRef = useRef(null);
   const gameEngineRef = useRef(null);
   const animationFrameRef = useRef(null);
+  const lastTapTimeRef = useRef(0);
+  const doubleTapDelayRef = useRef(300); // ms to detect double-tap
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
   const [coins, setCoins] = useState(0);
@@ -112,7 +114,37 @@ const GameCanvas = ({ gameState, onGameOver, playSound }) => {
     }
   }, [isPaused, playSound]);
 
-  // Touch and mouse event handlers
+  // Double-tap/double-click handler for double jump
+  const handleDoubleTap = useCallback(() => {
+    if (gameEngineRef.current && !isPaused) {
+      // Trigger double jump by calling handleInput twice rapidly
+      gameEngineRef.current.handleInput();
+      playSound('jump');
+    }
+  }, [isPaused, playSound]);
+
+  // Keyboard controls - Space to jump
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code === 'Space' || e.key === ' ') {
+        e.preventDefault();
+        if (gameEngineRef.current && !isPaused) {
+          gameEngineRef.current.handleInput();
+          playSound('jump');
+        }
+      }
+      // Escape to pause
+      if (e.code === 'Escape') {
+        setIsPaused(prev => !prev);
+        playSound('tap');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPaused, playSound]);
+
+  // Touch and mouse event handlers with double-tap detection
   const handleInteraction = useCallback((e) => {
     // Don't trigger on pause button area
     const rect = canvasRef.current?.getBoundingClientRect();
@@ -129,14 +161,34 @@ const GameCanvas = ({ gameState, onGameOver, playSound }) => {
       return;
     }
     
-    handleTap(e);
-  }, [handleTap, playSound]);
+    // Double-tap/double-click detection
+    const currentTime = Date.now();
+    const timeSinceLastTap = currentTime - lastTapTimeRef.current;
+    
+    if (timeSinceLastTap < doubleTapDelayRef.current && timeSinceLastTap > 50) {
+      // This is a double-tap - trigger jump again for double jump
+      handleDoubleTap();
+    } else {
+      // Single tap
+      handleTap(e);
+    }
+    
+    lastTapTimeRef.current = currentTime;
+  }, [handleTap, handleDoubleTap, playSound]);
+
+  // Handle native double-click event (for mouse)
+  const handleDoubleClick = useCallback((e) => {
+    e.preventDefault();
+    handleDoubleTap();
+  }, [handleDoubleTap]);
 
   return (
     <div 
       className={`game-container ${screenShake ? 'shake' : ''}`}
       onTouchStart={handleInteraction}
       onMouseDown={handleInteraction}
+      onDoubleClick={handleDoubleClick}
+      tabIndex={0}
     >
       <canvas ref={canvasRef} className="game-canvas" />
       

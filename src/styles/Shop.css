@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-md);
+  padding-top: calc(var(--spacing-md) + var(--safe-area-top, 0px));
   background: var(--bg-secondary);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -23,6 +24,11 @@
 .back-btn {
   font-size: 24px;
   padding: var(--spacing-sm);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .shop-header h1 {
@@ -134,7 +140,10 @@
 .shop-content {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--spacing-md);
+  padding-bottom: calc(var(--spacing-md) + var(--safe-area-bottom, 0px));
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Skins grid */

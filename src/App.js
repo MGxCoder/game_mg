@@ -61,6 +61,7 @@ function App() {
     };
     
     initGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ADDICTION MECHANIC: Quick restart - instant transition back to game

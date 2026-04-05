@@ -10,6 +10,10 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  padding: var(--spacing-lg);
+  padding-top: calc(var(--spacing-lg) + var(--safe-area-top, 0px));
+  padding-bottom: calc(var(--spacing-lg) + var(--safe-area-bottom, 0px));
+  box-sizing: border-box;
 }
 
 .go-bg {
@@ -146,6 +150,7 @@
   justify-content: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-lg);
+  min-height: 56px;
   background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
   border-radius: var(--radius-lg);
   font-size: 18px;
@@ -155,18 +160,27 @@
   animation: glow 2s ease-in-out infinite;
 }
 
+.restart-btn:hover {
+  filter: brightness(1.1);
+}
+
 .continue-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
   padding: var(--spacing-md);
+  min-height: 48px;
   background: linear-gradient(135deg, var(--accent-success), #00aa66);
   border-radius: var(--radius-md);
   font-size: 16px;
   font-weight: bold;
   text-transform: uppercase;
   position: relative;
+}
+
+.continue-btn:hover {
+  filter: brightness(1.1);
 }
 
 .ad-badge {

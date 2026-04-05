@@ -15,6 +15,7 @@
   display: flex;
   align-items: center;
   padding: var(--spacing-md);
+  padding-top: calc(var(--spacing-md) + var(--safe-area-top, 0px));
   background: var(--bg-secondary);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -23,6 +24,11 @@
   font-size: 24px;
   padding: var(--spacing-sm);
   margin-right: var(--spacing-md);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ach-header h1 {
@@ -93,7 +99,10 @@
 .ach-list {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--spacing-md);
+  padding-bottom: calc(var(--spacing-md) + var(--safe-area-bottom, 0px));
+  -webkit-overflow-scrolling: touch;
 }
 
 .ach-item {

@@ -17,14 +17,67 @@ const MainMenu = ({
   onOpenSettings 
 }) => {
   const [animateTitle, setAnimateTitle] = useState(false);
+  const [showSuggestionBox, setShowSuggestionBox] = useState(false);
+  const [suggestion, setSuggestion] = useState('');
+  const [suggestionSent, setSuggestionSent] = useState(false);
+  const [showSuggestionNotification, setShowSuggestionNotification] = useState(false);
 
   useEffect(() => {
     // Title animation on mount
     setTimeout(() => setAnimateTitle(true), 100);
+    
+    // Show suggestion notification after a short delay
+    const notificationTimer = setTimeout(() => {
+      // Check if user has dismissed this notification recently
+      const lastDismissed = localStorage.getItem('suggestion_notification_dismissed');
+      const oneDay = 24 * 60 * 60 * 1000; // 24 hours
+      
+      if (!lastDismissed || Date.now() - parseInt(lastDismissed) > oneDay) {
+        setShowSuggestionNotification(true);
+        
+        // Auto-hide after 8 seconds
+        setTimeout(() => {
+          setShowSuggestionNotification(false);
+        }, 8000);
+      }
+    }, 2000);
+    
+    return () => clearTimeout(notificationTimer);
   }, []);
+
+  const dismissNotification = () => {
+    setShowSuggestionNotification(false);
+    localStorage.setItem('suggestion_notification_dismissed', Date.now().toString());
+  };
+
+  const handleOpenSuggestionBox = () => {
+    dismissNotification();
+    setShowSuggestionBox(true);
+  };
 
   const currentSkin = SKINS.find(s => s.id === gameState.selectedSkin) || SKINS[0];
   const xpProgress = (gameState.xp / getXPForLevel(gameState.level)) * 100;
+
+  const handleSendSuggestion = () => {
+    if (suggestion.trim()) {
+      // Store suggestion locally (could be sent to a server)
+      const suggestions = JSON.parse(localStorage.getItem('game_suggestions') || '[]');
+      suggestions.push({
+        text: suggestion,
+        timestamp: Date.now(),
+        userId: gameState.playerId || 'anonymous'
+      });
+      localStorage.setItem('game_suggestions', JSON.stringify(suggestions));
+      
+      setSuggestionSent(true);
+      setSuggestion('');
+      
+      setTimeout(() => {
+        setSuggestionSent(false);
+        setShowSuggestionBox(false);
+      }, 2000);
+    }
+  };
 
   return (
     <div className="main-menu">
@@ -131,6 +184,70 @@ const MainMenu = ({
           <span className="qs-label">Day Streak</span>
         </div>
       </div>
+
+      {/* Suggestion Button with Notification */}
+      <div className="suggestion-container">
+        {showSuggestionNotification && (
+          <div className="suggestion-notification">
+            <div className="notification-content">
+              <span className="notification-icon">💡</span>
+              <div className="notification-text">
+                <strong>Got a game idea?</strong>
+                <span>Tap here to suggest!</span>
+              </div>
+              <button className="notification-close" onClick={dismissNotification}>✕</button>
+            </div>
+            <div className="notification-arrow" />
+          </div>
+        )}
+        <button 
+          className={`suggestion-fab ${showSuggestionNotification ? 'has-notification' : ''}`}
+          onClick={handleOpenSuggestionBox}
+          title="Suggest a game"
+        >
+          <span className="fab-icon">💡</span>
+        </button>
+      </div>
+
+      {/* Suggestion Box Modal */}
+      {showSuggestionBox && (
+        <div className="suggestion-overlay" onClick={() => setShowSuggestionBox(false)}>
+          <div className="suggestion-modal" onClick={(e) => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setShowSuggestionBox(false)}>✕</button>
+            
+            <h2 className="suggestion-title">💡 Game Suggestion</h2>
+            <p className="suggestion-desc">What game would you like us to make next?</p>
+            
+            {suggestionSent ? (
+              <div className="suggestion-success">
+                <span className="success-icon">✓</span>
+                <span>Thanks for your suggestion!</span>
+              </div>
+            ) : (
+              <>
+                <textarea
+                  className="suggestion-input"
+                  placeholder="Describe your game idea..."
+                  value={suggestion}
+                  onChange={(e) => setSuggestion(e.target.value)}
+                  maxLength={500}
+                  rows={4}
+                />
+                <div className="suggestion-footer">
+                  <span className="char-count">{suggestion.length}/500</span>
+                  <button 
+                    className="send-btn"
+                    onClick={handleSendSuggestion}
+                    disabled={!suggestion.trim()}
+                  >
+                    Send Suggestion
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

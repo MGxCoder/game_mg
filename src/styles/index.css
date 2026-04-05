@@ -159,3 +159,109 @@ button:active {
   0% { filter: hue-rotate(0deg); }
   100% { filter: hue-rotate(360deg); }
 }
+
+/* ===========================================
+   RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
+   =========================================== */
+
+/* Safe area insets for notched devices */
+:root {
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+}
+
+/* Prevent pull-to-refresh on mobile */
+body {
+  overscroll-behavior: none;
+}
+
+/* Better touch handling */
+button, .clickable {
+  touch-action: manipulation;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Small phones (max-width: 380px) */
+@media screen and (max-width: 380px) {
+  :root {
+    --spacing-xs: 3px;
+    --spacing-sm: 6px;
+    --spacing-md: 12px;
+    --spacing-lg: 18px;
+    --spacing-xl: 24px;
+  }
+}
+
+/* Medium phones (max-width: 480px) */
+@media screen and (max-width: 480px) {
+  .play-button {
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  .game-title .title-neon {
+    font-size: 36px;
+    letter-spacing: 4px;
+  }
+  
+  .game-title .title-surge {
+    font-size: 42px;
+    letter-spacing: 6px;
+  }
+}
+
+/* Tablets and larger screens */
+@media screen and (min-width: 768px) {
+  :root {
+    --spacing-xs: 6px;
+    --spacing-sm: 12px;
+    --spacing-md: 20px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .main-menu {
+    padding: var(--spacing-sm);
+  }
+  
+  .character-preview {
+    display: none;
+  }
+  
+  .title-container {
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .high-score {
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .game-title .title-neon,
+  .game-title .title-surge {
+    font-size: 28px;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

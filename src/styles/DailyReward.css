@@ -185,6 +185,7 @@
 .collect-btn {
   width: 100%;
   padding: var(--spacing-md);
+  min-height: 52px;
   background: linear-gradient(135deg, var(--accent-gold), #ff8800);
   border-radius: var(--radius-md);
   font-size: 18px;
@@ -193,10 +194,17 @@
   letter-spacing: 2px;
   color: #000;
   margin-bottom: var(--spacing-md);
+  transition: var(--transition-fast);
+}
+
+.collect-btn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
 }
 
 .collect-btn.collecting {
   opacity: 0.7;
+  transform: scale(1);
 }
 
 .dr-motivation {
